@@ -1,0 +1,10 @@
+--- /etc/ssl/openssl.cnf	2022-03-16 10:01:00.000000000 +0000
++++ /etc/ssl/openssl.cnf	2022-03-16 10:02:00.000000000 +0000
+@@ -358,5 +358,5 @@
+ system_default = system_default_sect
+ 
+ [system_default_sect]
+-MinProtocol = TLSv1.2
+-CipherString = DEFAULT@SECLEVEL=2
++MinProtocol = TLSv1.0
++CipherString = DEFAULT@SECLEVEL=1

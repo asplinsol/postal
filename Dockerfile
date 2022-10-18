@@ -4,7 +4,11 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
   software-properties-common dirmngr apt-transport-https \
-  && (curl -sL https://deb.nodesource.com/setup_14.x | bash -) \
+  && apt-key adv --fetch-keys 'https://mariadb.org/mariadb_release_signing_key.asc' \
+  && add-apt-repository 'deb [arch=amd64,arm64,ppc64el] https://mirrors.xtom.nl/mariadb/repo/10.6/debian buster main' \
+  && (curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -) \
+  && (echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list) \
+  && (curl -sL https://deb.nodesource.com/setup_16.x | bash -) \
   && rm -rf /var/lib/apt/lists/*
 
 # Install main dependencies
@@ -14,7 +18,6 @@ RUN apt-get update && \
   netcat \
   curl \
   libmariadb-dev \
-  libcap2-bin \
   nano \
   nodejs
 
@@ -65,3 +68,5 @@ FROM base AS full
 
 RUN POSTAL_SKIP_CONFIG_CHECK=1 RAILS_GROUPS=assets bundle exec rake assets:precompile
 RUN touch /opt/postal/app/public/assets/.prebuilt
+
+#taken from ghcr.io/postalserver/postal:2.1.1

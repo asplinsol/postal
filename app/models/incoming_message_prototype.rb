@@ -47,6 +47,7 @@ class IncomingMessagePrototype
     if valid?
       messages = route.create_messages do |message|
         message.rcpt_to = @to
+        message.subject = @subject
         message.mail_from = self.from_address
         message.raw_message = self.raw_message
       end

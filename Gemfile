@@ -29,6 +29,7 @@ gem 'jwt'
 gem 'highline', :require => false
 gem 'resolv', '~> 0.2.1'
 gem 'dotenv-rails'
+gem 'dnsbl-client'
 
 group :development, :assets do
   gem 'sass-rails', '~> 5.0'

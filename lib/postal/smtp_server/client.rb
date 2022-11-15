@@ -1,6 +1,5 @@
 require 'resolv'
 require 'nifty/utils/random_string'
-require 'dnsbl/client'
 
 module Postal
   module SMTPServer
@@ -8,7 +7,6 @@ module Postal
 
       CRAM_MD5_DIGEST = OpenSSL::Digest.new('md5')
       LOG_REDACTION_STRING = "[redacted]".freeze
-      BL = DNSBL::Client.new
 
       attr_reader :logging_enabled
 
@@ -212,11 +210,6 @@ module Postal
       end
 
       def authenticate(password)
-        res = BL.lookup(@ip_address)
-        unless res.length.zero?
-          log "\e[33m   WARN: Blocklist failure for #{@ip_address}\e[0m"
-          return '535 Denied'
-        end
         if @credential = Credential.where(:type => 'SMTP', :key => password).first
           @credential.use
           "235 Granted for #{@credential.server.organization.permalink}/#{@credential.server.permalink}"

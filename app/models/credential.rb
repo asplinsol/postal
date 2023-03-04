@@ -21,7 +21,7 @@ class Credential < ApplicationRecord
 
   belongs_to :server
 
-  TYPES = ['SMTP', 'API', 'SMTP-IP']
+  TYPES = ['SMTP', 'API', 'SMTP-IP', 'IMAP']
 
   validates :key, :presence => true, :uniqueness => true
   validates :type, :inclusion => {:in => TYPES}
@@ -38,7 +38,7 @@ class Credential < ApplicationRecord
     return if self.type == 'SMTP-IP'
     return if self.persisted?
 
-    self.key = SecureRandomString.new(24)
+    self.key = SecureRandomString.new(18)
   end
 
   def to_param

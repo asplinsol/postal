@@ -191,9 +191,9 @@ class Route < ApplicationRecord
   end
 
   def validate_endpoint_belongs_to_server
-    return unless endpoint && endpoint&.server != server
-
-    errors.add :endpoint, :invalid
+    if self.endpoint && self.endpoint&.server != self.server
+      errors.add :endpoint, :invalid, message: "The endpoint '#{self.endpoint.name}' must belong to the specified server '#{self.server.name}'."
+    end
   end
 
   def validate_name_uniqueness

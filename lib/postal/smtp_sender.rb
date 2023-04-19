@@ -75,6 +75,13 @@ module Postal
               retry
             end
 
+            # Handle proofpoint block better
+            if e.message.start_with?("554 Blocked")
+              log "Connection blocked: #{e.message}"
+              @connection_errors << e.message unless @connection_errors.include?(e.message)
+              break
+            end
+
             log "Cannot connect to #{@remote_ip}:#{port} (#{hostname}) (#{e.class}: #{e.message})"
             @connection_errors << e.message unless @connection_errors.include?(e.message)
             begin
@@ -126,6 +133,14 @@ module Postal
         # For some reason we had an SMTP connection but it's no longer connected.
         # Make a new one.
         start
+      end
+
+      blocked_error = @connection_errors.detect { |error| error.start_with?("554 Blocked") }
+      if blocked_error
+        result.type = 'HardFail'
+        result.details = "Connection blocked: #{blocked_error}"
+        result.output = blocked_error
+        return result
       end
 
       if @smtp_client

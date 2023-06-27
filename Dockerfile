@@ -18,6 +18,7 @@ RUN apt-get update && \
   netcat \
   curl \
   libmariadb-dev \
+  libcap2-bin \
   nano \
   nodejs
 

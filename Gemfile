@@ -1,34 +1,36 @@
-source 'https://rubygems.org'
-gem 'rails', '= 5.2.6.2'
-gem 'mysql2'
-gem 'puma'
-gem 'turbolinks', '~> 5'
-gem 'haml'
-gem 'nifty-utils'
-gem 'nilify_blanks'
-gem 'kaminari'
-gem 'bcrypt'
-gem 'foreman'
-gem 'hashie'
-gem 'authie', '~> 3.0'
-gem 'dynamic_form'
-gem 'changey'
-gem 'mail', :git => 'https://github.com/mikel/mail.git', :branch => '2-7-stable'
-gem 'autoprefixer-rails'
-gem 'bunny'
-gem 'secure_headers'
-gem 'chronic'
-gem 'basic_ssl'
-gem 'clockwork'
-gem 'encrypto_signo'
-gem 'nio4r'
-gem 'sentry-raven'
-gem 'gelf'
-gem 'moonrope'
-gem 'jwt'
-gem 'highline', :require => false
-gem 'resolv', '~> 0.2.1'
-gem 'dotenv-rails'
+source "https://rubygems.org"
+gem "authie"
+gem "autoprefixer-rails"
+gem "basic_ssl"
+gem "bcrypt"
+gem "bunny"
+gem "changey"
+gem "chronic"
+gem "clockwork"
+gem "dotenv-rails"
+gem "dynamic_form"
+gem "encrypto_signo"
+gem "foreman"
+gem "gelf"
+gem "haml"
+gem "hashie"
+gem "highline", require: false
+gem "execjs", '~> 2.7', "< 2.8"
+gem "jwt"
+gem "kaminari"
+gem "mail"
+gem "moonrope"
+gem "mysql2"
+gem "nifty-utils"
+gem "nilify_blanks"
+gem "nio4r"
+gem "puma"
+gem "rails", "= 6.1.7.3"
+gem "resolv", "~> 0.2.1"
+gem "secure_headers"
+gem 'sentry-rails'
+gem 'sentry-ruby'
+gem "turbolinks", "~> 5"
 
 group :development, :assets do
   gem "coffee-rails", "~> 5.0"

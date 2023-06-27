@@ -48,7 +48,7 @@ module Postal
           :message => @message.webhook_hash,
           :status => self.status,
           :details => self.details,
-          :output => self.output.to_s.encode('UTF-8', invalid: :replace, undef: :replace, replace: '').scrub
+          :output => self.output.to_s.encode('UTF-8', invalid: :replace, undef: :replace, replace: '').scrub,
           :sent_with_ssl => self.sent_with_ssl,
           :timestamp => @attributes['timestamp'],
           :time => self.time

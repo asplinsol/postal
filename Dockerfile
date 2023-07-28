@@ -8,7 +8,7 @@ RUN apt-get update \
   && add-apt-repository 'deb [arch=amd64,arm64,ppc64el] https://mirrors.xtom.nl/mariadb/repo/10.6/debian buster main' \
   && (curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -) \
   && (echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list) \
-  && (curl -sL https://deb.nodesource.com/setup_16.x | bash -) \
+  && (curl -sL https://deb.nodesource.com/setup_16.x | sed 's/https:\/\/deb.nodesource.com/http:\/\/deb.nodesource.com/g'  | bash -) \
   && rm -rf /var/lib/apt/lists/*
 
 # Install main dependencies
@@ -20,7 +20,9 @@ RUN apt-get update && \
   libmariadb-dev \
   libcap2-bin \
   nano \
-  nodejs
+  nodejs \
+  libcap2-bin \
+  && rm -rf /var/lib/apt/lists/*
 
 RUN setcap 'cap_net_bind_service=+ep' /usr/local/bin/ruby
 

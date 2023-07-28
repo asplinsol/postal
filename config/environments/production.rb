@@ -78,4 +78,6 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  config.hosts << IPAddr.new("10.1.0.0/16")
 end

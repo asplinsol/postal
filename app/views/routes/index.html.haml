@@ -44,7 +44,9 @@
                 - else
                   = t("route_modes.#{route.mode.underscore}")
               %p.routeList__spamMode= t("route_spam_modes.#{route.spam_mode.underscore}")
-                - route.additional_route_endpoints.each do |additional_endpoint|
-                  %p Additional Endpoint: #{additional_endpoint.description}
+            .routeList__details
+              - route.additional_route_endpoints.each do |additional_endpoint|
+                .routeList__endpoint{:class => "routeList__endpoint--none"}
+                  = additional_endpoint.endpoint.description
 
     %p.u-center= link_to "Add another route", [:new, organization, @server, :route], :class => 'button button--positive'

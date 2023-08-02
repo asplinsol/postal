@@ -82,6 +82,13 @@ module Postal
               break
             end
 
+            # Handle proofpoint block better
+            if e.message.start_with?("554 Rejected")
+              log "Connection rejected: #{e.message}"
+              @connection_errors << e.message unless @connection_errors.include?(e.message)
+              break
+            end
+
             log "Cannot connect to #{@remote_ip}:#{port} (#{hostname}) (#{e.class}: #{e.message})"
             @connection_errors << e.message unless @connection_errors.include?(e.message)
             begin

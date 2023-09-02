@@ -10,6 +10,7 @@ Rails.application.routes.draw do
         match :verify, on: :member, via: [:get, :post]
         get :setup, on: :member
         post :check, on: :member
+        post :import, on: :collection
       end
       resources :track_domains do
         post :toggle_ssl, on: :member

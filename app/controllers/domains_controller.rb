@@ -1,3 +1,6 @@
+
+require 'csv'
+
 class DomainsController < ApplicationController
 
   include WithinOrganization
@@ -41,6 +44,37 @@ class DomainsController < ApplicationController
     else
       render_form_errors "new", @domain
     end
+  end
+
+  def import
+    # Access the uploaded CSV file from the POST request
+    uploaded_file = params[:csv_file]
+    csv_text = uploaded_file.read.force_encoding('ISO-8859-1')
+
+    # Parse the CSV content
+    csv = CSV.parse(csv_text, headers: true)
+    
+    # Extract unique domains
+    domains = csv.map { |row| row['email address'].split('@').last }.uniq
+
+    # Loop through each domain and create a new record
+    domains.each do |domain_name|
+      scope = @server ? @server.domains : organization.domains
+      domain_params = { name: domain_name, verification_method: "Manual" } # Customize as needed
+
+      @domain = scope.build(domain_params)
+
+      if current_user.admin?
+        @domain.verification_method = "DNS"
+        @domain.verified_at = Time.now
+      end
+
+      unless @domain.save
+        # Handle errors (e.g., log them, add them to an array to display later, etc.)
+      end
+    end
+
+    # Redirect or render as needed
   end
 
   def destroy

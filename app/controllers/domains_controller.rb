@@ -74,7 +74,8 @@ class DomainsController < ApplicationController
       end
     end
 
-    # Redirect or render as needed
+    # Redirect to the list of domains after import
+    redirect_to [organization, @server, :domains], notice: 'Domains imported successfully.'
   end
 
   def destroy

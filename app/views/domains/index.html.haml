@@ -25,6 +25,16 @@
         messages to/from. Add your domain below to get started.
       %p.noData__button= link_to "Add your first domain", [:new, organization, @server, :domain], :class => "button button--positive"
 
+      %h2 Import Domains from CSV
+
+      = form_with url: import_organization_server_domains_path(@organization, @server), local: true, multipart: true do |form|
+        .fieldSet__field
+          = form.label :csv_file, "Upload CSV File", :class => 'fieldSet__label'
+          .fieldSet__input= form.file_field :csv_file, required: true, class: "input input--file"
+        .fieldSetSubmit
+          = form.submit "Import Domains", class: "button button--positive"
+
+
   - else
     %ul.domainList.u-margin
       - for domain in @domains
@@ -72,3 +82,12 @@
               = link_to "Delete", [organization, @server, domain], :remote => :delete, :method => :delete, :data => {:confirm => "Are you sure you wish to remove this domain?", :disable_with => "Deleting..."}, :class => 'domainList__delete'
 
     %p.u-center= link_to "Add new domain", [:new, organization, @server, :domain], :class => "button button--positive"
+
+    %h2 Import Domains from CSV
+
+    = form_with url: import_organization_server_domains_path(@organization, @server), local: true, multipart: true do |form|
+      .fieldSet__field
+        = form.label :csv_file, "Upload CSV File", :class => 'fieldSet__label'
+        .fieldSet__input= form.file_field :csv_file, required: true, class: "input input--file"
+      .fieldSetSubmit
+        = form.submit "Import Domains", class: "button button--positive"

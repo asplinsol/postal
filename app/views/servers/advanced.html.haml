@@ -53,7 +53,19 @@
             %p.fieldSet__text
               The total amount of disk space (in megabytes) to allow raw message data to use on the disk. Older messages will be deleted to keep
               the total usage below this amount.
+        .fieldSet__field
+          = f.label :godaddy_key, :class => 'fieldSet__label'
+          .fieldSet__input
+            = f.password_field :godaddy_key, :class => 'input input--text'
+            %p.fieldSet__text
+              GoDaddy API Key.
 
+        .fieldSet__field
+          = f.label :godaddy_secret, :class => 'fieldSet__label'
+          .fieldSet__input
+            = f.text_field :godaddy_secret, :class => 'input input--text'
+            %p.fieldSet__text
+              GoDaddy API Secret.
       .fieldSetSubmit.fieldSetSubmit--wide.buttonSet
         = f.submit "Save server", :class => 'button button--positive js-form-submit'
 
@@ -72,18 +84,6 @@
             %p.fieldSet__text
               If you wish to disable this server and stop it sending messages, enter a reason above. Any users assigned to the
               server will be notified of the suspension by e-mail.
-      .fieldSet__field
-        = f.label :godaddy_key, :class => 'fieldSet__label'
-        .fieldSet__input
-          = f.text_field :godaddy_key, :class => 'input input--text'
-          %p.fieldSet__text
-            Your GoDaddy API Key.
-
-      .fieldSet__field
-        = f.label :godaddy_secret, :class => 'fieldSet__label'
-        .fieldSet__input
-          = f.text_field :godaddy_secret, :class => 'input input--text'
-          %p.fieldSet__text
-            Your GoDaddy API Secret.
+    
       .fieldSetSubmit.fieldSetSubmit--wide.buttonSet
         = submit_tag "Suspend server", :class => 'button button--positive js-form-submit'

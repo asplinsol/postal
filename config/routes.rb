@@ -11,13 +11,18 @@ Rails.application.routes.draw do
         get :setup, on: :member
         post :check, on: :member
         post :import, on: :collection
+        post :install_records, on: :member
       end
       resources :track_domains do
         post :toggle_ssl, on: :member
         post :check, on: :member
       end
       resources :credentials
-      resources :routes
+      resources :routes do
+        collection do
+          post :import
+        end
+      end
       resources :http_endpoints
       resources :smtp_endpoints
       resources :address_endpoints

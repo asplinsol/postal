@@ -1,5 +1,8 @@
 
 require 'csv'
+require 'net/http'
+require 'uri'
+require 'json'
 
 class DomainsController < ApplicationController
 
@@ -53,7 +56,7 @@ class DomainsController < ApplicationController
 
     # Parse the CSV content
     csv = CSV.parse(csv_text, headers: true)
-    
+
     # Extract unique domains
     domains = csv.map { |row| row['email address'].split('@').last }.uniq
 
@@ -136,6 +139,78 @@ class DomainsController < ApplicationController
       redirect_to_with_json [organization, @server, :domains], notice: "Your DNS records for #{@domain.name} look good!"
     else
       redirect_to_with_json [:setup, organization, @server, @domain], alert: "There seems to be something wrong with your DNS records. Check below for information."
+    end
+  end
+
+  def install_records
+
+    # URL for the GoDaddy API endpoint to add a TXT record
+    uri = URI.parse("https://api.godaddy.com/v1/domains/#{@domain.name}/records")
+
+    req = Net::HTTP::Patch.new(uri)
+    req["Authorization"] = "sso-key #{@server.godaddy_key}:#{@server.godaddy_secret}"
+    req["Content-Type"] = 'application/json'
+
+    # Prepare the data
+    data = [
+      {
+          "data": "v=DMARC1; p=none;",
+          "name": "@",
+          "ttl": 3600,
+          "type": "TXT"
+      },
+      {
+          "data": @domain.spf_record,
+          "name": "@",
+          "ttl": 3600,
+          "type": "TXT"
+      },
+      {
+          "data": @domain.dkim_record,
+          "name": @domain.dkim_record_name,
+          "ttl": 3600,
+          "type": "TXT"
+      },
+      {
+          "data": Postal.config.dns.return_path,
+          "name": "ptsrp",
+          "ttl": 3600,
+          "type": "CNAME"
+      },
+    ]
+    mx_data = Postal.config.dns.mx_records.map do |record|
+      {
+        "data": record,
+        "name": "@",
+        "priority": 10,
+        "ttl": 3600,
+        "type": "MX"
+      }
+    end
+
+    data.concat(mx_data)
+
+    req.body = data.to_json
+
+
+    # Debugging output
+    puts "Request URI: #{req.uri}"
+    puts "Request Method: #{req.method}"
+    puts "Request Headers: #{req.to_hash.inspect}"
+    puts "Request Body: #{req.body}"
+
+    # Send the request
+    response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
+      http.request(req)
+    end
+
+    # Check the response
+    if response.is_a?(Net::HTTPSuccess)
+      puts "Response Body: #{response.body}"
+      return JSON.parse(response.body)
+    else
+      # Handle errors
+      raise "Failed to add TXT record: #{response.body}"
     end
   end
 

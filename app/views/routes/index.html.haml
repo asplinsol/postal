@@ -26,6 +26,15 @@
         - else
           %p.noData__button
             = link_to "Add your first route", [:new, organization, @server, :route], :class => 'button button--positive'
+      
+      %h2 Import Routes from CSV
+
+      = form_tag import_organization_server_routes_path(organization, @server), multipart: true do
+        = file_field_tag :file
+        = submit_tag "Import CSV"
+
+
+
   - else
     %p.pageContent__intro.u-margin
       Routes control where incoming mail for your domain is sent. Messages can be sent to

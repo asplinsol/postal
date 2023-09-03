@@ -56,14 +56,14 @@
         .fieldSet__field
           = f.label :godaddy_key, :class => 'fieldSet__label'
           .fieldSet__input
-            = f.password_field :godaddy_key, :class => 'input input--text'
+            = f.text_field :godaddy_key, :class => 'input input--text'
             %p.fieldSet__text
               GoDaddy API Key.
 
         .fieldSet__field
           = f.label :godaddy_secret, :class => 'fieldSet__label'
           .fieldSet__input
-            = f.text_field :godaddy_secret, :class => 'input input--text'
+            = f.password_field :godaddy_secret, :class => 'input input--text'
             %p.fieldSet__text
               GoDaddy API Secret.
       .fieldSetSubmit.fieldSetSubmit--wide.buttonSet

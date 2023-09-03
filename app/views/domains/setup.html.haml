@@ -23,9 +23,10 @@
     Follow the instructions below to configure SPF & DKIM records for this domain.
     We highly recommend that you do this to ensure your messages are delivered
     correctly and quickly.
-
+ 
   .u-margin.buttonSet
     = link_to "Check my records are correct", [:check, organization, @server, @domain], :remote => true, :method => :post, :class => 'button'
+    = link_to "Install Goddaddy Records", [:install_records, organization, @server, @domain], :remote => true, :method => :post, :class => 'button button--neutral'
     = link_to "Back to domain list", [organization, @server, :domains], :class => 'button button--neutral'
   - if @domain.dns_checked_at
     %p.u-margin We last checked the validity of your DNS records #{distance_of_time_in_words_to_now @domain.dns_checked_at} ago.

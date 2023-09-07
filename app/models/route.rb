@@ -33,7 +33,7 @@ class Route < ApplicationRecord
 
   SPAM_MODES = ['Mark', 'Quarantine', 'Fail']
   ENDPOINT_TYPES = ['SMTPEndpoint', 'HTTPEndpoint', 'AddressEndpoint']
-  IGNORE_SUBJECTS = ["MEYCZT7", "FFLEKWK", "CWKCWHK", "PLLFRMV", "GGHLLEC", "green grapes", "pink plums", "wuI", "wrmpbx",
+  IGNORE_SUBJECTS = ["MEYCZT7", "FFLEKWK", "CWKCWHK", "pllfrmv", "PLLFRMV", "GGHLLEC", "green grapes", "pink plums", "wuI", "wrmpbx",
      "Automatic reply:", "Undeliverable", "Delivery Status Notification (Failure)", "Delivery Status Notification (Delay)", "Mail delivery failed",
      "Automatic Reply", "Out of office", "couldn't be delivered", "permanent fatal errors", "Delivery Failure", "Delivery has failed", "Undelivered Mail",
      "Mail Delivery Failure", "Unzustellbar", "Respuesta automática", "Entrega retrasada", "Automatisch antwoord", "Auto Svar", "Delivery delayed", "communication failure", "Postmaster", "Kan ikke leveres", "Nelivrabil", "Your Google Account is disabled", "Kézbesíthetetlen", "Olevererbart", "New device signed in to", "attempt was blocked", "permanent error", "Security alert", "Delivery Failed", "Returned mail", "Email Delivery Failure", "Mail Delivery", "could not be delivered", "Automaattinen vastaus", "Automatisk sva", "Autosvar", "Jag är på semester", "wasn’t delivered", "fuori dall'ufficio", "assente dall'ufficio", "Risposta automatica", "Réponse automatique", "Non recapitabile",

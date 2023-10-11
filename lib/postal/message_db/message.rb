@@ -563,7 +563,16 @@ module Postal
         @database.statistics.increment_all(timestamp, scope)
         Statistic.global.increment!(:total_messages)
         Statistic.global.increment!("total_#{scope}".to_sym)
-        add_to_message_queue
+        begin
+          add_to_message_queue
+        rescue => e
+          # Handle exception
+          puts "An error occurred: #{e.message}"
+          # Optionally: re-raise the exception or log it
+          # raise e
+          # or
+          # Logger.error(e)
+        end
       end
 
       def mail

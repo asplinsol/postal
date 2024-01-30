@@ -91,7 +91,7 @@ class ApplicationController < ActionController::Base
     Rails.logger.error "Form errors: #{object.errors.full_messages.inspect}"
     respond_to do |wants|
       wants.html { render action_name }
-      wants.json { render json: { form_errors: object.errors.full_messages }, status: :unprocessable_entity }
+      wants.json { render json: { form_errors: object.errors.map(&:full_message) }, status: :unprocessable_entity }
     end
   end
 

@@ -1,3 +1,4 @@
+require "erb"
 require "yaml"
 require "pathname"
 require "cgi"
@@ -7,6 +8,9 @@ require_relative "error"
 require_relative "version"
 
 module Postal
+
+  class Config
+  end
 
   def self.host
     @host ||= config.web.host || "localhost:5000"
@@ -78,14 +82,10 @@ module Postal
   end
 
   def self.defaults
-    @defaults ||= YAML.load_file(defaults_file_path)
-  end
-
-  def self.database_url
-    if config.main_db
-      "mysql2://#{CGI.escape(config.main_db.username.to_s)}:#{CGI.escape(config.main_db.password.to_s)}@#{config.main_db.host}:#{config.main_db.port}/#{config.main_db.database}?reconnect=true&encoding=#{config.main_db.encoding || 'utf8mb4'}&pool=#{config.main_db.pool_size}"
-    else
-      "mysql2://root@localhost/postal"
+    @defaults ||= begin
+      file = File.read(defaults_file_path)
+      yaml = ERB.new(file).result
+      YAML.safe_load(yaml)
     end
   end
 
@@ -152,7 +152,7 @@ module Postal
   end
 
   def self.signing_key_path
-    config_root.join("signing.key")
+    ENV.fetch("POSTAL_SIGNING_KEY_PATH") { config_root.join("signing.key") }
   end
 
   def self.signing_key
